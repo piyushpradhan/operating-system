@@ -1,0 +1,7 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/piyush/projects/personal/operating-system/nanobyte'
+nasm src/main.asm -f bin -o build/main.bin
+cp build/main.bin build/main_floppy.img
+truncate -s 1440k build/main_floppy.img
+make: Leaving directory '/home/piyush/projects/personal/operating-system/nanobyte'
+ 
