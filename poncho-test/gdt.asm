@@ -32,8 +32,21 @@ gdt_end:
 gdt_descriptor:                         ; holds the size of the offset
   get_size: 
     dw gdt_end - gdt_nulldesc - 1       ; it has to be 2 bytes so dw instead of db 
-    dd gdt_nulldesc
+    ; dq because we need to use them to access 64-bit address space
+    dq gdt_nulldesc
   
 ; defining the addresses of the code and data segments
 codeseg equ gdt_codedesc - gdt_nulldesc
 dataseg equ gdt_datadesc - gdt_nulldesc
+
+; because this will be called from 32-bit mode
+[bits 32]
+
+editGDT: 
+  mov [gdt_codedesc + 6], byte 10101111b
+  mov [gdt_datadesc + 6], byte 10101111b
+  ret
+
+; to not mess something up
+[bits 16]
+
